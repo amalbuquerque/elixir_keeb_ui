@@ -1,8 +1,8 @@
-defmodule ElixirKeeb.UIWeb.UserSocket do
+defmodule ElixirKeeb.UIWeb.KeyboardSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", ElixirKeeb.UIWeb.RoomChannel
+  channel "keyboard", ElixirKeeb.UIWeb.Channels.KeyboardChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

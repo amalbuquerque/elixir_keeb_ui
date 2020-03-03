@@ -10,7 +10,7 @@ defmodule ElixirKeeb.UIWeb.Endpoint do
     signing_salt: "SmMKkED4"
   ]
 
-  socket "/socket", ElixirKeeb.UIWeb.UserSocket,
+  socket "/socket", ElixirKeeb.UIWeb.KeyboardSocket,
     websocket: true,
     longpoll: false
 
