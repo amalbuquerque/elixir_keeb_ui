@@ -1,57 +1,96 @@
-import Keyboard from "simple-keyboard";
-import "simple-keyboard/build/css/index.css";
+import Keyboard from 'simple-keyboard';
+import 'simple-keyboard/build/css/index.css';
 
-import socket_and_channel from "./socket";
+import socket_and_channel from './socket';
 const {channel} = socket_and_channel;
 
-channel
-  .on("keypress", keypress => { console.log("Keypress", keypress) })
+const keyboard_event = (type, key) => {
+  return new KeyboardEvent(type, {
+    'key': key,
+    'bubbles': true,
+  });
+};
 
-channel
-  .push("get_layout", {})
-  .receive("ok", ({layout}) => {
-    configureKeyboard(layout);
-  })
+const handleShift = (keyboard) => {
+  let currentLayout = keyboard.options.layoutName;
+  let shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
 
+  keyboard.setOptions({
+    layoutName: shiftToggle
+  });
+};
+
+const set_channel_handlers = (keyboard, channel) => {
+  channel
+    .on('keypress', ({key}) => {
+      console.log('Keypress', key);
+
+      event = keyboard_event('keydown', key);
+      document.body.dispatchEvent(event);
+
+      setTimeout(() => {
+        event = keyboard_event('keyup', key);
+        document.body.dispatchEvent(event);
+      }, 50)
+    });
+
+  channel
+    .on('keydown', ({key}) => {
+      console.log('Key down', key);
+
+      if(key === "shift") {
+        handleShift(keyboard);
+      } else {
+        event = keyboard_event('keydown', key);
+        document.body.dispatchEvent(event);
+      }
+    });
+
+  channel
+    .on('keyup', ({key}) => {
+      console.log('Key up', key);
+
+      event = keyboard_event('keyup', key);
+      document.body.dispatchEvent(event);
+    });
+};
 
 const configureKeyboard = (layout) => {
   const onChange = (input) => {
-    document.querySelector(".input").value = input;
-    console.log("Input changed", input);
-  }
+    document.querySelector('.input').value = input;
+    console.log('Input changed', input);
+  };
 
   const onKeyPress = (button) => {
-    console.log("Button pressed", button);
-
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === "{shift}" || button === "{lock}") handleShift(keyboard);
+    console.log('Button pressed', button);
   };
 
-  const handleShift = (keyboard) => {
-    let currentLayout = keyboard.options.layoutName;
-    let shiftToggle = currentLayout === "default" ? "shift" : "default";
+  let keyboard = new Keyboard({
+    newLineOnEnter: true,
+    tabCharOnTab: true,
+    physicalKeyboardHighlight: true,
+    debug: true,
+    onChange: input => onChange(input),
+    onKeyPress: input => onKeyPress(input),
+    layout: layout
+  });
 
-    keyboard.setOptions({
-      layoutName: shiftToggle
-    });
-  };
+  console.log('Keyboard', keyboard);
 
-    let keyboard = new Keyboard({
-      newLineOnEnter: true,
-      tabCharOnTab: true,
-      onChange: input => onChange(input),
-      onKeyPress: button => onKeyPress(button),
-      layout: layout
-    });
+  /**
+   * Update simple-keyboard when input is changed directly
+   */
+  document.querySelector('.input').addEventListener('input', event => {
+    keyboard.setInput(event.target.value);
+  });
 
-    console.log("Keyboard", keyboard);
+  return keyboard;
+};
 
-    /**
-     * Update simple-keyboard when input is changed directly
-     */
-    document.querySelector(".input").addEventListener("input", event => {
-      keyboard.setInput(event.target.value);
-    });
-}
+channel
+  .push('get_layout', {})
+  .receive('ok', ({layout}) => {
+    let keyboard = configureKeyboard(layout);
+
+    set_channel_handlers(keyboard, channel);
+  });

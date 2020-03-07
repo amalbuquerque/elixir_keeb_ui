@@ -2,20 +2,31 @@ defmodule ElixirKeeb.UIWeb.Keyboard do
   alias ElixirKeeb.UIWeb.Endpoint
 
   @topic "keyboard"
-  @event "keypress"
 
-  def broadcast_keypress(keypress) do
-    Endpoint.broadcast(@topic, @event, %{keypress: keypress})
+  def broadcast_keypress(key) do
+    Endpoint.broadcast(
+      @topic, "keypress", %{key: key})
+  end
+
+  def broadcast_keydown(key) do
+    Endpoint.broadcast(
+      @topic, "keydown", %{key: key})
+  end
+
+  def broadcast_keyup(key) do
+    Endpoint.broadcast(
+      @topic, "keyup", %{key: key})
   end
 
   def current_layout() do
     %{
       default: [
-        "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+        "` a1 b2 3 4 5 6 7 8 9 0 - = {bksp}",
         "{tab} q w e r t y u i o p [ ] \\",
         "{lock} a s d f g h j k l ; ' {enter}",
         "{shift} z x c v b n m , . / {shift}",
-        ".com @ {space}"],
+        ".com @ {space}"
+      ],
       shift: [
         "~ ! @ # $ % ^ & * ( ) _ + {bksp}",
         "{tab} Q W E R T Y U I O P { } |",
