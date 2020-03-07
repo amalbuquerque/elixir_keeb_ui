@@ -7,4 +7,10 @@ defmodule ElixirKeeb.UIWeb.Channels.KeyboardChannel do
 
     {:ok, socket}
   end
+
+  def handle_in("get_layout", _params, socket) do
+    layout = ElixirKeeb.UIWeb.Keyboard.current_layout()
+
+    {:reply, {:ok, %{"layout" => layout}}, socket}
+  end
 end

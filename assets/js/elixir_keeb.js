@@ -1,17 +1,23 @@
 import Keyboard from "simple-keyboard";
 import "simple-keyboard/build/css/index.css";
 
-/**
- * Available layouts
- * https://github.com/hodgef/simple-keyboard-layouts/tree/master/src/lib/layouts
- */
-import layout from "simple-keyboard-layouts/build/layouts/english";
+import socket_and_channel from "./socket";
+const {channel} = socket_and_channel;
 
-let keyboard = new Keyboard({
-  onChange: input => onChange(input),
-  onKeyPress: button => onKeyPress(button),
-  layout: layout
-});
+channel
+  .on("keypress", keypress => { console.log("Keypress", keypress) })
+
+channel
+  .push("get_layout", {})
+  .receive("ok", ({layout}) => {
+    let keyboard = new Keyboard({
+      onChange: input => onChange(input),
+      onKeyPress: button => onKeyPress(button),
+      layout: layout
+    });
+
+    console.log("Keyboard", keyboard);
+  })
 
 /**
  * Update simple-keyboard when input is changed directly
@@ -19,8 +25,6 @@ let keyboard = new Keyboard({
 document.querySelector(".input").addEventListener("input", event => {
   keyboard.setInput(event.target.value);
 });
-
-console.log(keyboard);
 
 function onChange(input) {
   document.querySelector(".input").value = input;
