@@ -8,8 +8,7 @@
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "simple-keyboard": "^2.28.24",
-    "simple-keyboard-layouts": "^1.12.22"
+    "simple-keyboard": "^2.28.24"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
