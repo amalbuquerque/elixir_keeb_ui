@@ -20,17 +20,67 @@ const handleShift = (keyboard) => {
   });
 };
 
+const getButtonElement = (keyboard, event) => {
+  let layoutKeyName = keyboard.physicalKeyboard.getSimpleKeyboardLayoutKey(
+    event
+  );
+
+  const buttonElement =
+    keyboard.getButtonElement(layoutKeyName) ||
+    keyboard.getButtonElement(`{${layoutKeyName}}`);
+
+  if (!buttonElement) {
+    console.log("Could not find button in layout", layoutKeyName);
+
+    return null;
+  }
+
+  if (Array.isArray(buttonElement)) {
+    return buttonElement[0];
+  }
+
+  return buttonElement;
+};
+
+const highlightButtonFunc = (keyboard) => {
+  return (event) => {
+    const buttonElement = getButtonElement(keyboard, event);
+
+    if (!buttonElement) {
+      return false;
+    }
+
+    buttonElement.style.background = "#9ab4d0";
+    buttonElement.style.color = "white";
+  };
+}
+
+const unhighlightButtonFunc = (keyboard) => {
+  return (event) => {
+    const buttonElement = getButtonElement(keyboard, event);
+
+    if (!buttonElement) {
+      return false;
+    }
+
+    buttonElement.removeAttribute("style");
+  };
+};
+
 const set_channel_handlers = (keyboard, channel) => {
+  const highlightButton = highlightButtonFunc(keyboard);
+  const unhighlightButton = unhighlightButtonFunc(keyboard);
+
   channel
     .on('keypress', ({key}) => {
       console.log('Keypress', key);
 
       event = keyboard_event('keydown', key);
-      document.body.dispatchEvent(event);
+      highlightButton(event);
 
       setTimeout(() => {
         event = keyboard_event('keyup', key);
-        document.body.dispatchEvent(event);
+        unhighlightButton(event);
       }, 50)
     });
 
@@ -40,18 +90,22 @@ const set_channel_handlers = (keyboard, channel) => {
 
       if(key === "shift") {
         handleShift(keyboard);
-      } else {
-        event = keyboard_event('keydown', key);
-        document.body.dispatchEvent(event);
       }
+
+      event = keyboard_event('keydown', key);
+      highlightButton(event);
     });
 
   channel
     .on('keyup', ({key}) => {
       console.log('Key up', key);
 
+      if(key === "shift") {
+        handleShift(keyboard);
+      }
+
       event = keyboard_event('keyup', key);
-      document.body.dispatchEvent(event);
+      unhighlightButton(event);
     });
 };
 
