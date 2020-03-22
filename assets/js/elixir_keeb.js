@@ -107,6 +107,12 @@ const set_channel_handlers = (keyboard, channel) => {
       event = keyboard_event('keyup', key);
       unhighlightButton(event);
     });
+
+  channel
+    .on('log', ({logMessage}) => {
+      document.querySelector('.logs')
+        .value += (logMessage + '\n');
+    });
 };
 
 const configureKeyboard = (layout) => {
@@ -123,7 +129,7 @@ const configureKeyboard = (layout) => {
     newLineOnEnter: true,
     tabCharOnTab: true,
     physicalKeyboardHighlight: true,
-    debug: true,
+    debug: false,
     onChange: input => onChange(input),
     onKeyPress: input => onKeyPress(input),
     layout: layout

@@ -3,6 +3,11 @@ defmodule ElixirKeeb.UIWeb.Keyboard do
 
   @topic "keyboard"
 
+  def broadcast_log_message(log_message) do
+    Endpoint.broadcast(
+      @topic, "log", %{logMessage: log_message})
+  end
+
   def broadcast_keypress(key) do
     Endpoint.broadcast(
       @topic, "keypress", %{key: key})
