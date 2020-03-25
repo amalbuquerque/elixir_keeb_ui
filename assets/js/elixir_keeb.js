@@ -110,8 +110,10 @@ const set_channel_handlers = (keyboard, channel) => {
 
   channel
     .on('log', ({logMessage}) => {
-      document.querySelector('.logs')
-        .value += (logMessage + '\n');
+      let logsTextArea = document.querySelector('.logs');
+
+      logsTextArea.value += (logMessage + '\n');
+      logsTextArea.scrollTop = logsTextArea.scrollHeight;
     });
 };
 
