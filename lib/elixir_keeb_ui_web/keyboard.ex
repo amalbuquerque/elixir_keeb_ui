@@ -24,6 +24,10 @@ defmodule ElixirKeeb.UIWeb.Keyboard do
   end
 
   def current_layout() do
+    current_layout(Mix.env())
+  end
+
+  def current_layout(:dev) do
     %{
       default: [
         "` a1 b2 3 4 5 6 7 8 9 0 - = {bksp}",
@@ -40,5 +44,20 @@ defmodule ElixirKeeb.UIWeb.Keyboard do
         ".com @ {space}"
       ]
     }
+  end
+
+  def current_layout(_env) do
+    {
+      representation_module,
+      representation_function
+    } = Application.get_env(:elixir_keeb_ui, :representation)
+
+    keyboard_layout =
+      Application.get_env(:elixir_keeb_ui, :keyboard_layout)
+
+    Kernel.apply(
+      representation_module,
+      representation_function,
+      [keyboard_layout])
   end
 end
