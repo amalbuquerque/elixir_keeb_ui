@@ -27,7 +27,7 @@ defmodule ElixirKeeb.UIWeb.Keyboard do
     current_layout(Mix.env())
   end
 
-  def current_layout(:dev) do
+  def current_layout(:local) do
     %{
       default: [
         "` a1 b2 3 4 5 6 7 8 9 0 - = {bksp}",
