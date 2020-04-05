@@ -128,9 +128,9 @@ const configureKeyboard = (layout) => {
   };
 
   let keyboard = new Keyboard({
-    newLineOnEnter: true,
-    tabCharOnTab: true,
-    physicalKeyboardHighlight: true,
+    newLineOnEnter: false,
+    tabCharOnTab: false,
+    physicalKeyboardHighlight: false,
     debug: false,
     onChange: input => onChange(input),
     onKeyPress: input => onKeyPress(input),
@@ -138,13 +138,6 @@ const configureKeyboard = (layout) => {
   });
 
   console.log('Keyboard', keyboard);
-
-  /**
-   * Update simple-keyboard when input is changed directly
-   */
-  document.querySelector('.input').addEventListener('input', event => {
-    keyboard.setInput(event.target.value);
-  });
 
   return keyboard;
 };
