@@ -3,9 +3,13 @@ defmodule ElixirKeeb.UI.Application do
   # for more information on OTP Applications
   @moduledoc false
 
+  require Logger
+
   use Application
 
   def start(_type, _args) do
+    Logger.info("⌨️ Starting ElixirKeeb.UI ⌨️,")
+
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
