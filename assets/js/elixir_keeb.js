@@ -11,6 +11,7 @@ const keyboard_event = (type, key) => {
   });
 };
 
+// TODO: Adapt this to multiple "layers"
 const handleShift = (keyboard) => {
   let currentLayout = keyboard.options.layoutName;
   let shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
@@ -104,8 +105,12 @@ const set_channel_handlers = (keyboard, channel) => {
         handleShift(keyboard);
       }
 
-      event = keyboard_event('keyup', key);
-      unhighlightButton(event);
+      // slowing down the unhighlight, since for
+      // quick taps it wasn't showing on the simple keyboard
+      setTimeout(() => {
+        event = keyboard_event('keyup', key);
+        unhighlightButton(event);
+      }, 50)
     });
 
   channel
