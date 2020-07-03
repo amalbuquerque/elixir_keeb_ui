@@ -21,50 +21,54 @@ const handleShift = (keyboard) => {
   });
 };
 
-const getButtonElement = (keyboard, event) => {
+const getButtonElements = (keyboard, event) => {
   let layoutKeyName = keyboard.physicalKeyboard.getSimpleKeyboardLayoutKey(
     event
   );
 
-  const buttonElement =
+  const buttonElements =
     keyboard.getButtonElement(layoutKeyName) ||
     keyboard.getButtonElement(`{${layoutKeyName}}`);
 
-  if (!buttonElement) {
+  if (!buttonElements) {
     console.log("Could not find button in layout", layoutKeyName);
 
     return null;
   }
 
-  if (Array.isArray(buttonElement)) {
-    return buttonElement[0];
+  if (Array.isArray(buttonElements)) {
+    return buttonElements;
   }
 
-  return buttonElement;
+  return [buttonElements];
 };
 
 const highlightButtonFunc = (keyboard) => {
   return (event) => {
-    const buttonElement = getButtonElement(keyboard, event);
+    const buttonElements = getButtonElements(keyboard, event);
 
-    if (!buttonElement) {
+    if (!buttonElements) {
       return false;
     }
 
-    buttonElement.style.background = "#9ab4d0";
-    buttonElement.style.color = "white";
+    for(let buttonElement of buttonElements) {
+      buttonElement.style.background = "#9ab4d0";
+      buttonElement.style.color = "white";
+    }
   };
 }
 
 const unhighlightButtonFunc = (keyboard) => {
   return (event) => {
-    const buttonElement = getButtonElement(keyboard, event);
+    const buttonElements = getButtonElements(keyboard, event);
 
-    if (!buttonElement) {
+    if (!buttonElements) {
       return false;
     }
 
-    buttonElement.removeAttribute("style");
+    for(let buttonElement of buttonElements) {
+      buttonElement.removeAttribute("style");
+    }
   };
 };
 

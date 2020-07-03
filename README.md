@@ -4,16 +4,9 @@ To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+  * Set the `Mix` env as `local`, since it will allow you to use a dummy layout (check the `lib/elixir_keeb_ui_web/keyboard.ex`)
+  * Start Phoenix endpoint with `MIX_ENV=local mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+To broadcast keypresses and log messages, check the `broadcast_keypress/1`, `broadcast_keydown/1`, `broadcast_keyup/1` and `broadcast_log_message/1` functions in the `keyboard.ex` file.
