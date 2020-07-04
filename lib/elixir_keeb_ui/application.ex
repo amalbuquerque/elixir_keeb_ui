@@ -13,9 +13,8 @@ defmodule ElixirKeeb.UI.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      ElixirKeeb.UIWeb.Endpoint
-      # Starts a worker by calling: ElixirKeeb.UI.Worker.start_link(arg)
-      # {ElixirKeeb.UI.Worker, arg},
+      ElixirKeeb.UIWeb.Endpoint,
+      {Phoenix.PubSub, [name: ElixirKeeb.UI.PubSub, adapter: Phoenix.PubSub.PG2]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

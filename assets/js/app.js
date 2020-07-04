@@ -14,4 +14,5 @@ import "phoenix_html"
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
+import "./live_socket"
 import "./elixir_keeb"

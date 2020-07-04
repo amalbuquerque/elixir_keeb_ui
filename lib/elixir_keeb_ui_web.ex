@@ -22,6 +22,7 @@ defmodule ElixirKeeb.UIWeb do
       use Phoenix.Controller, namespace: ElixirKeeb.UIWeb
 
       import Plug.Conn
+      import Phoenix.LiveView.Controller
       alias ElixirKeeb.UIWeb.Router.Helpers, as: Routes
     end
   end
@@ -39,6 +40,9 @@ defmodule ElixirKeeb.UIWeb do
       use Phoenix.HTML
 
       import ElixirKeeb.UIWeb.ErrorHelpers
+
+      import Phoenix.LiveView.Helpers
+
       alias ElixirKeeb.UIWeb.Router.Helpers, as: Routes
     end
   end
@@ -48,6 +52,7 @@ defmodule ElixirKeeb.UIWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

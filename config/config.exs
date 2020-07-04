@@ -15,7 +15,7 @@ config :elixir_keeb_ui, ElixirKeeb.UIWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "lyJTNxBjfH08ODTgiErmNZZw4jsR9Cv8lNMtvUrYtJULavMR3envdyBF6l2SsrYv",
   render_errors: [view: ElixirKeeb.UIWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: ElixirKeeb.UI.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: ElixirKeeb.UI.PubSub,
   live_view: [signing_salt: "gqyVWgdq"]
 
 # Configures Elixir's Logger

@@ -8,7 +8,9 @@
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "simple-keyboard": "^2.28.24"
+    "phoenix_live_view": "file:../deps/phoenix_live_view",
+    "simple-keyboard": "^2.28.24",
+    "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
