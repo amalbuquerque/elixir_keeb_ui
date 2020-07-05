@@ -17,6 +17,21 @@ defmodule ElixirKeeb.UI.Application do
       {Phoenix.PubSub, [name: ElixirKeeb.UI.PubSub, adapter: Phoenix.PubSub.PG2]}
     ]
 
+    children = case Mix.env() do
+      :local ->
+        [
+          %{
+            id: Fake.DataSource,
+            # TODO: length of fake data should come from config,
+            # same value that controls number of Barchart "categories"
+            start: {ElixirKeeb.UI.DataFaker, :new, [[50, [name: Fake.DataSource]]]}
+          }
+          | children
+        ]
+      _ ->
+        children
+    end
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ElixirKeeb.UI.Supervisor]
