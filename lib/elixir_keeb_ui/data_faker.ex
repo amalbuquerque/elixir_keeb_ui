@@ -64,11 +64,17 @@ defmodule ElixirKeeb.UI.DataFaker do
     GenServer.start_link(__MODULE__, init_arg, options)
   end
 
-  def get(server) do
+  def get, do: get(__MODULE__)
+
+  def get(how_many) when is_integer(how_many),
+    do: get(__MODULE__, how_many)
+
+  def get(server) when is_atom(server) or is_pid(server) do
     GenServer.call(server, {:get, :all})
   end
 
-  def get(server, how_many) do
+  def get(server, how_many)
+    when (is_atom(server) or is_pid(server)) and is_integer(how_many) do
     GenServer.call(server, {:get, how_many})
   end
 

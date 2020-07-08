@@ -20,14 +20,9 @@ defmodule ElixirKeeb.UI.Application do
     children = case Mix.env() do
       :local ->
         [
-          %{
-            id: Fake.DataSource,
-            # TODO: length of fake data should come from config,
-            # same value that controls number of Barchart "categories"
-            start: {ElixirKeeb.UI.DataFaker, :new, [[50, [name: Fake.DataSource]]]}
-          }
-          | children
-        ]
+          fake_datasource_spec(Fake.DataSource1, 50),
+          fake_datasource_spec(Fake.DataSource2, 50)
+        ] ++ children
       _ ->
         children
     end
@@ -36,6 +31,19 @@ defmodule ElixirKeeb.UI.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ElixirKeeb.UI.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp fake_datasource_spec(name, how_many) do
+    %{
+      id: name,
+      # TODO: length of fake data should come from config,
+      # same value that controls number of Barchart "categories"
+      start: {
+        ElixirKeeb.UI.DataFaker,
+        :new,
+        [[how_many, [name: name]]]
+      }
+    }
   end
 
   # Tell Phoenix to update the endpoint configuration
