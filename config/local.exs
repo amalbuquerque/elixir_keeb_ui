@@ -21,6 +21,54 @@ config :elixir_keeb_ui, ElixirKeeb.UIWeb.Endpoint,
     ]
   ]
 
+config :elixir_keeb_ui, :barcharts,
+  matrix_scan_latency: %{
+    # number of columns
+    categories: 50,
+    series: 1,
+    orientation: :vertical,
+    show_selected: "no",
+    title: "Matrix scan latency",
+    type: :stacked,
+    colour_scheme: "themed",
+
+    # custom options
+    plot_dimensions: {500, 400},
+    values_range: {0, 2.0},
+    data_source: [
+      # MFA called to get the data list
+      mfa: {
+      ElixirKeeb.UI.DataFaker,
+      :get,
+      [Fake.DataSource1, 50]
+      },
+      wait_before_new_data_ms: 100
+    ]
+  },
+  matrix_to_usb_latency: %{
+    # number of columns
+    categories: 30,
+    series: 1,
+    orientation: :vertical,
+    show_selected: "no",
+    title: "Matrix to USB latency",
+    type: :stacked,
+    colour_scheme: "default",
+
+    # custom options
+    plot_dimensions: {500, 400},
+    values_range: {0, 2.0},
+    data_source: [
+      # MFA called to get the data list
+      mfa: {
+      ElixirKeeb.UI.DataFaker,
+      :get,
+      [Fake.DataSource2, 30]
+      },
+      wait_before_new_data_ms: 100
+    ]
+  }
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

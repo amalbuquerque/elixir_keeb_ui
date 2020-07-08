@@ -17,7 +17,8 @@ defmodule ElixirKeeb.UIWeb.Router do
   scope "/", ElixirKeeb.UIWeb do
     pipe_through :browser
 
-    live "/barchart_timer", Contex.BarchartTimer, layout: {ElixirKeeb.UIWeb.LayoutView, :app}
+    live "/matrix_scan_latency", MatrixScanLatencyBarchart, layout: {ElixirKeeb.UIWeb.LayoutView, :app}
+    live "/matrix_to_usb_latency", MatrixToUsbLatencyBarchart, layout: {ElixirKeeb.UIWeb.LayoutView, :app}
 
     get "/", PageController, :index
   end

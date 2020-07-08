@@ -1,4 +1,6 @@
 <section>
   <div class="simple-keyboard"></div>
   <textarea class="logs"></textarea>
+  <%= live_render(@conn, ElixirKeeb.UIWeb.MatrixScanLatencyBarchart)%>
+  <%= live_render(@conn, ElixirKeeb.UIWeb.MatrixToUsbLatencyBarchart)%>
 </section>
