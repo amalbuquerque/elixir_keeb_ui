@@ -5,51 +5,41 @@ defmodule ElixirKeeb.UIWeb.Contex.BarchartTimer do
   import ElixirKeeb.UIWeb.Contex.Shared
 
   alias Contex.{BarChart, Plot, Dataset}
-  alias ElixirKeeb.UI.DataFaker
-
-  @wait_before_new_data_ms 100
-  @plot_dimensions {500, 400}
-  @values_range {0, 2.0}
-  @head_title "A cool example"
-
-  @initial_options %{
-    # number of columns
-    categories: 50,
-    series: 1,
-    orientation: :vertical,
-    show_selected: "no",
-    title: nil,
-    type: :stacked,
-    colour_scheme: "themed"
-  }
 
   def render(assigns) do
     ~L"""
-      <h3><%= @head_title %></h3>
       <div class="container">
         <div class="row">
           <div class="column column-75">
             <%= if @show_chart do %>
-              <%= basic_plot(@test_data, @chart_options) %>
-              <%= list_to_comma_string(@chart_options[:friendly_message]) %>
+              <%= basic_plot(@chart_data, @chart_options) %>
             <% end %>
           </div>
         </div>
       </div>
     """
-
   end
 
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
+    initial_options = case params[:initial_options] do
+      nil ->
+        raise("`initial_options` used for the barchart need to be passed through the `params` argument. Params passed: #{inspect(params)}")
+
+      options when is_map(options) ->
+        options
+    end
+
     socket =
       socket
-      |> assign(head_title: @head_title)
-      |> assign(chart_options: @initial_options)
+      |> assign(chart_options: initial_options)
       |> get_data()
+
+    wait_before_new_data_ms =
+      initial_options.data_source[:wait_before_new_data_ms]
 
     socket = case connected?(socket) do
       true ->
-        Process.send_after(self(), :tick, @wait_before_new_data_ms)
+        Process.send_after(self(), :tick, wait_before_new_data_ms)
 
         assign(socket, show_chart: true)
       false ->
@@ -60,20 +50,23 @@ defmodule ElixirKeeb.UIWeb.Contex.BarchartTimer do
   end
 
   def handle_info(:tick, socket) do
-    Process.send_after(self(), :tick, @wait_before_new_data_ms)
+    wait_before_new_data_ms =
+      socket.assigns.chart_options.data_source[:wait_before_new_data_ms]
+
+    Process.send_after(self(), :tick, wait_before_new_data_ms)
 
     {:noreply, get_data(socket)}
   end
 
-  def basic_plot(test_data, chart_options) do
-    plot_content = BarChart.new(test_data)
+  def basic_plot(chart_data, chart_options) do
+    plot_content = BarChart.new(chart_data)
       |> BarChart.set_val_col_names(chart_options.series_columns)
       |> BarChart.type(chart_options.type)
       |> BarChart.orientation(chart_options.orientation)
       |> BarChart.colours(lookup_colours(chart_options.colour_scheme))
-      |> BarChart.force_value_range(@values_range)
+      |> BarChart.force_value_range(chart_options.values_range)
 
-    {width, height} = @plot_dimensions
+    {width, height} = chart_options.plot_dimensions
 
     plot = Plot.new(width, height, plot_content)
       |> Plot.titles(chart_options.title, nil)
@@ -84,9 +77,8 @@ defmodule ElixirKeeb.UIWeb.Contex.BarchartTimer do
   defp get_data(socket) do
     options = socket.assigns.chart_options
     series = options.series
-    categories = options.categories
 
-    data = raw_data(categories)
+    data = raw_data(options.data_source[:mfa])
 
     series_cols = for i <- 1..series do
       "Series #{i}"
@@ -94,13 +86,13 @@ defmodule ElixirKeeb.UIWeb.Contex.BarchartTimer do
 
     options = Map.put(options, :series_columns, series_cols)
 
-    test_data = Dataset.new(data, ["Category" | series_cols])
+    chart_data = Dataset.new(data, ["Category" | series_cols])
 
-    assign(socket, test_data: test_data, chart_options: options)
+    assign(socket, chart_data: chart_data, chart_options: options)
   end
 
-  def raw_data(categories) do
-    data = DataFaker.get(Fake.DataSource, categories)
+  def raw_data({module, function, args}) when is_list(args) do
+    data = Kernel.apply(module, function, args)
 
     data
     |> Enum.zip(1..length(data))
