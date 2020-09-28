@@ -1,6 +1,8 @@
 defmodule ElixirKeeb.UIWeb.Keyboard do
   alias ElixirKeeb.UIWeb.Endpoint
 
+  @mix_env Mix.env()
+
   @topic "keyboard"
 
   def broadcast_log_message(log_message) do
@@ -23,7 +25,7 @@ defmodule ElixirKeeb.UIWeb.Keyboard do
       @topic, "keyup", %{key: key})
   end
 
-  if Mix.env() == :local do
+  if @mix_env == :local do
     def current_layout() do
       %{
         default: [

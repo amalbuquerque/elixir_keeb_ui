@@ -7,8 +7,10 @@ defmodule ElixirKeeb.UI.Application do
 
   use Application
 
+  @mix_env Mix.env()
+
   def start(_type, _args) do
-    Logger.info("⌨️ Starting ElixirKeeb.UI ⌨️,")
+    Logger.info("⌨️ Starting ElixirKeeb.UI 2020/09/27 23:59:44 ⌨️,")
 
     # List all child processes to be supervised
     children = [
@@ -17,7 +19,7 @@ defmodule ElixirKeeb.UI.Application do
       {Phoenix.PubSub, [name: ElixirKeeb.UI.PubSub, adapter: Phoenix.PubSub.PG2]}
     ]
 
-    children = case Mix.env() do
+    children = case @mix_env do
       :local ->
         [
           fake_datasource_spec(Fake.DataSource1, 50),
