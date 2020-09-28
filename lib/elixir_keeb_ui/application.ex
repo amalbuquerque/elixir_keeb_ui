@@ -23,7 +23,7 @@ defmodule ElixirKeeb.UI.Application do
       :local ->
         [
           fake_datasource_spec(Fake.DataSource1, 50),
-          fake_datasource_spec(Fake.DataSource2, 50)
+          fake_datasource_spec(Fake.DataSource2, 30)
         ] ++ children
       _ ->
         children

@@ -1,7 +1,7 @@
 defmodule ElixirKeeb.UI.DataFaker do
   use GenServer
 
-  @wait_before_more_data_ms 150
+  @wait_before_more_data_ms 1500
 
   @impl true
   def init({elem, how_many}) do
