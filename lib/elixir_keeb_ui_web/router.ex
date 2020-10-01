@@ -21,6 +21,7 @@ defmodule ElixirKeeb.UIWeb.Router do
     live "/matrix_to_usb_latency", MatrixToUsbLatencyBarchart, layout: {ElixirKeeb.UIWeb.LayoutView, :app}
 
     get "/", PageController, :index
+    get "/logs", PageController, :logs
   end
 
   # Other scopes may use custom stacks.

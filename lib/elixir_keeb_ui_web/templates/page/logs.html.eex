@@ -1,0 +1,4 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/main_live_logs.bundle.js") %>"></script>
+<section>
+  <textarea class="logs"></textarea>
+</section>

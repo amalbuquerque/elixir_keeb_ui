@@ -1,6 +1,17 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/main_elixir_keeb.bundle.js") %>"></script>
 <section>
+  <div>
+    <a href="/logs"><h1>🗎</h1></a>
+  </div>
   <div class="simple-keyboard"></div>
-  <textarea class="logs"></textarea>
-  <%= live_render(@conn, ElixirKeeb.UIWeb.MatrixScanLatencyBarchart)%>
-  <%= live_render(@conn, ElixirKeeb.UIWeb.MatrixToUsbLatencyBarchart)%>
+  <div style="display: block; position: absolute; left: -115px;">
+    <div style="display: flex; margin: 20px 0;">
+      <div>
+        <%= live_render(@conn, ElixirKeeb.UIWeb.MatrixScanLatencyBarchart)%>
+      </div>
+      <div>
+      <%= live_render(@conn, ElixirKeeb.UIWeb.MatrixToUsbLatencyBarchart)%>
+      </div>
+    </div>
+  </div>
 </section>

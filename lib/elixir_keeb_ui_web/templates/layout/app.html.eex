@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= assigns[:page_title] || "ElixirKeeb.UI · Phoenix Framework" %></title>
+    <title><%= assigns[:page_title] || "ElixirKeeb.UI + Phoenix Framework" %></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <%= csrf_meta_tag() %>
   </head>
@@ -13,7 +13,12 @@
       <section class="container">
         <nav role="navigation">
         </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
+        <h1 style="margin: 0;">
+          <a href="/">
+            ElixirKeeb 🧪
+          </a>
+        </h1>
+        <a href="/" class="phx-logo">
           <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
         </a>
       </section>
@@ -23,6 +28,5 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= @inner_content %>
     </main>
-    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

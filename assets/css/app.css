@@ -18,11 +18,16 @@ input {
 
 .logs {
   width: 100%;
-  height: 100px;
+  height: 500px;
   padding: 20px;
   font-size: 20px;
   border: 1px;
   box-sizing: border-box;
+}
+
+.chart {
+  /* width: width:calc(50%); */
+  width: 500px;
 }
 
 .exc-tick {

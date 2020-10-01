@@ -4,4 +4,8 @@ defmodule ElixirKeeb.UIWeb.PageController do
   def index(conn, _params) do
     render(conn, "index.html")
   end
+
+  def logs(conn, _params) do
+    render(conn, "logs.html")
+  end
 end
