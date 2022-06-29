@@ -9,7 +9,8 @@ defmodule ElixirKeeb.UI.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -32,14 +33,22 @@ defmodule ElixirKeeb.UI.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
-      {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_html, "~> 2.13"},
-      {:phoenix_live_reload, "~> 1.2", only: [:dev, :local]},
-      {:phoenix_live_view, "~> 0.13.1"},
+      {:phoenix, "~> 1.6"},
+      {:phoenix_pubsub, "~> 2.1"},
+      {:phoenix_html, "~> 3.1"},
+      {:phoenix_live_reload, "~> 1.3", only: [:dev, :local]},
+      {:phoenix_live_view, "~> 0.17.10"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.5"},
       {:contex, git: "https://github.com/mindok/contex"},
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["deps.get", "ecto.setup"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
 end

@@ -6,19 +6,20 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "nprogress": "^0.2.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
-    "simple-keyboard": "^2.28.24",
-    "nprogress": "^0.2.0"
+    "simple-keyboard": "^2.28.24"
   },
   "devDependencies": {
+    "@babel/compat-data": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
-    "@babel/compat-data": "^7.0.0",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.1.1",
     "css-loader": "^3.4.2",
+    "esbuild": "^0.14.47",
     "mini-css-extract-plugin": "^0.9.0",
     "minimist": ">=1.2.2",
     "optimize-css-assets-webpack-plugin": "^5.0.1",

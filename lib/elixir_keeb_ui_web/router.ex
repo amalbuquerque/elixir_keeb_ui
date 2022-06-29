@@ -10,6 +10,10 @@ defmodule ElixirKeeb.UIWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :liveview do
+    plug :put_root_layout, {ElixirKeeb.UIWeb.LayoutView, :app}
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,8 +21,8 @@ defmodule ElixirKeeb.UIWeb.Router do
   scope "/", ElixirKeeb.UIWeb do
     pipe_through :browser
 
-    live "/matrix_scan_latency", MatrixScanLatencyBarchart, layout: {ElixirKeeb.UIWeb.LayoutView, :app}
-    live "/matrix_to_usb_latency", MatrixToUsbLatencyBarchart, layout: {ElixirKeeb.UIWeb.LayoutView, :app}
+    live "/matrix_scan_latency", MatrixScanLatencyBarchart
+    live "/matrix_to_usb_latency", MatrixToUsbLatencyBarchart
 
     get "/", PageController, :index
     get "/logs", PageController, :logs

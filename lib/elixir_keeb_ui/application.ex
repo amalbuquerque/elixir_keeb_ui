@@ -10,7 +10,7 @@ defmodule ElixirKeeb.UI.Application do
   @mix_env Mix.env()
 
   def start(_type, _args) do
-    Logger.info("⌨️ Starting ElixirKeeb.UI 2020/09/27 23:59:44 ⌨️,")
+    Logger.info("⌨️  Starting ElixirKeeb.UI 2022/06/27 22:31:08 ⌨️,")
 
     # List all child processes to be supervised
     children = [
